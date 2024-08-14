@@ -107,7 +107,7 @@ def get_batch(random_key, data, batch_size, block_size):
   y = dynamic_slice_vmap(data, ix+1, (block_size,))
   return x, y
 ```
-The important thing to note here is that y is that y[i, j] represents the target token for the input at x[i, j] and x[i, j] == y[i, j -1] for all i, j where j > 0. For example, if x is [["h" "e" "l" "l" "o"]] then y would be [["e" "l" "l" "o" " "]]. The training loop for SimpleDecoder will try to learn a function f such that f("h") -> "e", f("e") -> "l", f("l") -> "l", f("l") -> "o", f("o") -> " ". As you can imagine, this function f will not be very good at predicting the next token because its context length is too short. In Task 1, we'll change the architecture to use transformers so that we'll instead try to learn a function g such that g(["h"]) -> "e", g(["h" "e"]) -> "l", g(["h" "e" "l"]) -> "l", g(["h" "e" "l" "l"]) -> "o", g(["h" "e" "l" "l" "o"]) -> "o".
+The important thing to note here is that y is that y[i, j] represents the target token for the input at x[i, j] and x[i, j] == y[i, j -1] for all i, j where j > 0. For example, if x is [["h" "e" "l" "l" "o"]] then y would be [["e" "l" "l" "o" " "]]. The training loop for SimpleDecoder will try to learn a function f such that f("h") -> "e", f("e") -> "l", f("l") -> "l", f("l") -> "o", f("o") -> " ". As you can imagine, this function f will not be very good at predicting the next token because its context length is too short. In Task 1, we'll change the architecture to use transformers so that we'll instead try to learn a function g such that g(["h"]) -> "e", g(["h" "e"]) -> "l", g(["h" "e" "l"]) -> "l", g(["h" "e" "l" "l"]) -> "o", g(["h" "e" "l" "l" "o"]) -> " ".
 
 ```
 @jax.jit
